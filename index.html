@@ -62,8 +62,9 @@ input:focus{outline:none;box-shadow:0 0 0 2px #00e5ff88}
  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="stats"></div>
  <div class="grid lg:grid-cols-2 gap-5 mt-6">
   <div class="glass p-6"><h3 class="font-bold mb-4">نمره کوئیز اول به تفکیک گروه</h3><div id="gbars" class="space-y-3"></div></div>
+  <div class="glass p-6"><h3 class="font-bold mb-1">رشد یا افول نسبت به کوئیز اول</h3><p class="text-xs text-slate-400 mb-4">اختلاف میانگین کوئیز دوم اعضا با نمره کوئیز اول همان گروه (سبز: رشد، قرمز: افول)</p><div id="gbars2" class="space-y-3"></div></div>
   <div class="glass p-6"><h3 class="font-bold mb-4">وضعیت حضور و نمره</h3><div class="flex items-center justify-center gap-8 flex-wrap"><svg id="donut" width="190" height="190" viewBox="0 0 42 42"></svg><div id="legend" class="space-y-2 text-sm"></div></div>
-  <h3 class="font-bold mt-8 mb-3">توزیع نمرات</h3><div id="hist" class="flex items-end gap-3 h-32"></div></div>
+  <h3 class="font-bold mt-8 mb-3">توزیع نمرات کوئیز دوم</h3><div id="hist" class="flex items-end gap-3 h-32"></div></div>
  </div>
 </section>
 
@@ -83,12 +84,16 @@ input:focus{outline:none;box-shadow:0 0 0 2px #00e5ff88}
 <footer class="text-center text-xs text-slate-500 pb-8">درس مهندسی فاکتورهای انسانی (ارگونومی)</footer>
 
 <script>
-const DATA=[{"g": "1", "n": "بلبلی زهرا", "id": "۴۰۲۱۳۲۰۱۰۰۸", "s": 60, "st": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "1", "n": "زمانی محسن", "id": "۴۰۲۱۳۲۰۱۰۲۲", "s": 60, "st": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "1", "n": "ملکی زهرا", "id": "۴۰۰۱۳۲۰۱۰۳۴", "s": 60, "st": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "2", "n": "ربیعی کیارش", "id": "۴۰۲۱۳۲۰۱۰۱۸", "s": 86.67, "st": null, "p": "اعلام نشده"}, {"g": "2", "n": "نظری فر علیرضا", "id": "۴۰۲۱۳۲۰۱۰۴۹", "s": 86.67, "st": null, "p": "اعلام نشده"}, {"g": "2", "n": "اقاعلی خانی امیرحسین", "id": "۴۰۲۱۳۲۰۱۰۰۵", "s": 86.67, "st": null, "p": "اعلام نشده"}, {"g": "3", "n": "ابراهیمی کوثر", "id": "۴۰۲۱۳۲۰۱۰۰۱", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "3", "n": "رشیدی راوندی محمدحسین", "id": "۴۰۲۱۳۲۰۱۰۲۰", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "3", "n": "ستایش محمدمهدی", "id": "۴۰۲۱۳۲۰۱۰۲۳", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "3", "n": "منصوری گواری ابوالفضل", "id": "۴۰۰۱۳۲۰۱۰۴۱", "s": null, "st": "غیبت", "p": "اعلام نشده"}, {"g": "4", "n": "رضائی متین", "id": "۴۰۲۱۳۲۰۵۰۰۳", "s": 100, "st": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "معظمی گودرزی نگین", "id": "۴۰۲۱۳۲۰۱۰۴۳", "s": 100, "st": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "سرمستی ستایش", "id": "۴۰۲۱۳۲۰۱۰۲۴", "s": 100, "st": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "نصری امیرمهدی", "id": "۴۰۲۱۳۲۰۱۰۵۰", "s": 100, "st": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "5", "n": "رفیعی محمد", "id": "۴۰۲۱۳۲۰۱۰۲۱", "s": 100, "st": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "5", "n": "مرادخانی مهدیس", "id": "۴۰۲۱۳۲۰۱۰۴۲", "s": 100, "st": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "5", "n": "خلیل ابادی نازنین", "id": "۴۰۲۱۳۲۰۱۰۱۱", "s": 100, "st": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "6-انفرادی", "n": "امیری فرد ترانه", "id": "۴۰۲۱۳۲۰۱۰۰۷", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "7", "n": "اقارضی درمنی یگانه", "id": "۴۰۲۱۳۲۰۱۰۰۴", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "7", "n": "دولت ابادی فراهانی سپیده", "id": "۴۰۲۱۳۲۰۱۰۱۵", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "7", "n": "شرفی امین", "id": "۴۰۲۱۳۲۰۱۰۲۵", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "8", "n": "شعیبی زهرا", "id": "۴۰۲۱۳۲۰۱۰۲۶", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "8", "n": "لطیفیان پریا", "id": "۴۰۲۱۳۲۰۱۰۴۱", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "8", "n": "عزیزی اقدم زرنکش مریم", "id": "۴۰۲۱۳۲۰۱۰۳۱", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "9-انفرادی", "n": "مولائی امیرحسین", "id": "۴۰۲۱۳۲۰۱۰۴۵", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "10", "n": "میرزائی یاسین", "id": "۴۰۱۱۳۲۰۱۰۲۹", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "10", "n": "رحیمی بانی فاطمه", "id": "۴۰۲۱۳۲۰۱۰۱۹", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "10", "n": "غفوری نرگس", "id": "۴۰۲۱۳۲۰۱۰۵۱", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "10", "n": "عسکری جیران", "id": "۴۰۲۱۳۲۰۱۰۳۲", "s": 46.67, "st": null, "p": "اعلام نشده"}, {"g": "11", "n": "خلیلی فاطمه", "id": "۴۰۲۱۳۲۰۱۰۱۲", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "11", "n": "قلی پور احمد", "id": "۴۰۱۱۳۲۰۱۰۲۲", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "11", "n": "عالی خانی ستایش", "id": "۴۰۲۱۳۲۰۱۰۳۰", "s": 100, "st": null, "p": "اعلام نشده"}, {"g": "بدون گروه", "n": "مقدسی زینب", "id": "۴۰۵۱۳۲۰۵۰۰۱", "s": null, "st": "فاقد نمره", "p": "اعلام نشده"}];
+const DATA=[{"g": "1", "n": "بلبلی زهرا", "id": "۴۰۲۱۳۲۰۱۰۰۸", "s1": 60, "st1": null, "s2": 73.33, "st2": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "1", "n": "زمانی محسن", "id": "۴۰۲۱۳۲۰۱۰۲۲", "s1": 60, "st1": null, "s2": 33.33, "st2": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "1", "n": "ملکی زهرا", "id": "۴۰۰۱۳۲۰۱۰۳۴", "s1": 60, "st1": null, "s2": 66.66, "st2": null, "p": "۱)طراحی چک لیست دیجیتال نگهداری   و تعمیرات با هدف کاهش خطاهای ناشی از فراموشش و بار ذهنی ۲)ارزیابی پوسچر دانشجویان در کتابخانه یا کلاس با استفاده از پردازش تصویر(بینایی ماشین)"}, {"g": "2", "n": "ربیعی کیارش", "id": "۴۰۲۱۳۲۰۱۰۱۸", "s1": 86.67, "st1": null, "s2": 73.33, "st2": null, "p": "اعلام نشده"}, {"g": "2", "n": "نظری فر علیرضا", "id": "۴۰۲۱۳۲۰۱۰۴۹", "s1": 86.67, "st1": null, "s2": 86.66, "st2": null, "p": "اعلام نشده"}, {"g": "2", "n": "اقاعلی خانی امیرحسین", "id": "۴۰۲۱۳۲۰۱۰۰۵", "s1": 86.67, "st1": null, "s2": 40, "st2": null, "p": "اعلام نشده"}, {"g": "3", "n": "ابراهیمی کوثر", "id": "۴۰۲۱۳۲۰۱۰۰۱", "s1": 100, "st1": null, "s2": 86.66, "st2": null, "p": "اعلام نشده"}, {"g": "3", "n": "رشیدی راوندی محمدحسین", "id": "۴۰۲۱۳۲۰۱۰۲۰", "s1": 100, "st1": null, "s2": 0, "st2": null, "p": "اعلام نشده"}, {"g": "3", "n": "ستایش محمدمهدی", "id": "۴۰۲۱۳۲۰۱۰۲۳", "s1": 100, "st1": null, "s2": 40, "st2": null, "p": "اعلام نشده"}, {"g": "3", "n": "منصوری گواری ابوالفضل", "id": "40013201041", "s1": null, "st1": "غیبت", "s2": 26.66, "st2": null, "p": "اعلام نشده"}, {"g": "4", "n": "رضائی متین", "id": "۴۰۲۱۳۲۰۵۰۰۳", "s1": 100, "st1": null, "s2": 26.66, "st2": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "معظمی گودرزی نگین", "id": "۴۰۲۱۳۲۰۱۰۴۳", "s1": 100, "st1": null, "s2": 86.66, "st2": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "سرمستی ستایش", "id": "۴۰۲۱۳۲۰۱۰۲۴", "s1": 100, "st1": null, "s2": 66.66, "st2": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "4", "n": "نصری امیرمهدی", "id": "۴۰۲۱۳۲۰۱۰۵۰", "s1": 100, "st1": null, "s2": 60, "st2": null, "p": "توسعه مدل ارزیابی ریسک های فیزیکی (ROSA) و بار ذهنی (NASA-TLX) در سنجش عملکرد شغلی (WRFQ) کارمندان اداری و شعب بانک"}, {"g": "5", "n": "رفیعی محمد", "id": "۴۰۲۱۳۲۰۱۰۲۱", "s1": 100, "st1": null, "s2": 73.33, "st2": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "5", "n": "مرادخانی مهدیس", "id": "۴۰۲۱۳۲۰۱۰۴۲", "s1": 100, "st1": null, "s2": 60, "st2": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "5", "n": "خلیل ابادی نازنین", "id": "۴۰۲۱۳۲۰۱۰۱۱", "s1": 100, "st1": null, "s2": 33.33, "st2": null, "p": "برسی تاثیر فشار زمانی بر خطای انسانی"}, {"g": "6-انفرادی", "n": "امیری فرد ترانه", "id": "۴۰۲۱۳۲۰۱۰۰۷", "s1": 46.67, "st1": null, "s2": 33.33, "st2": null, "p": "اعلام نشده"}, {"g": "7", "n": "اقارضی درمنی یگانه", "id": "۴۰۲۱۳۲۰۱۰۰۴", "s1": 100, "st1": null, "s2": 60, "st2": null, "p": "ارزیابی ارگونومی شناختی رابط موبایلی سامانه دانشگاه"}, {"g": "7", "n": "دولت ابادی فراهانی سپیده", "id": "۴۰۲۱۳۲۰۱۰۱۵", "s1": 100, "st1": null, "s2": 53.33, "st2": null, "p": "ارزیابی ارگونومی شناختی رابط موبایلی سامانه دانشگاه"}, {"g": "7", "n": "شرفی امین", "id": "۴۰۲۱۳۲۰۱۰۲۵", "s1": 100, "st1": null, "s2": 20, "st2": null, "p": "ارزیابی ارگونومی شناختی رابط موبایلی سامانه دانشگاه"}, {"g": "8", "n": "شعیبی زهرا", "id": "۴۰۲۱۳۲۰۱۰۲۶", "s1": 46.67, "st1": null, "s2": null, "st2": "غیبت", "p": "اعلام نشده"}, {"g": "8", "n": "لطیفیان پریا", "id": "۴۰۲۱۳۲۰۱۰۴۱", "s1": 46.67, "st1": null, "s2": 60, "st2": null, "p": "اعلام نشده"}, {"g": "8", "n": "عزیزی اقدم زرنکش مریم", "id": "۴۰۲۱۳۲۰۱۰۳۱", "s1": 46.67, "st1": null, "s2": 46.66, "st2": null, "p": "اعلام نشده"}, {"g": "9-انفرادی", "n": "مولائی امیرحسین", "id": "۴۰۲۱۳۲۰۱۰۴۵", "s1": 100, "st1": null, "s2": 46.66, "st2": null, "p": "اعلام نشده"}, {"g": "10", "n": "میرزائی یاسین", "id": "۴۰۱۱۳۲۰۱۰۲۹", "s1": 46.67, "st1": null, "s2": 73.33, "st2": null, "p": "اعلام نشده"}, {"g": "10", "n": "رحیمی بانی فاطمه", "id": "۴۰۲۱۳۲۰۱۰۱۹", "s1": 46.67, "st1": null, "s2": 66.66, "st2": null, "p": "اعلام نشده"}, {"g": "10", "n": "غفوری نرگس", "id": "۴۰۲۱۳۲۰۱۰۵۱", "s1": 46.67, "st1": null, "s2": 73.33, "st2": null, "p": "اعلام نشده"}, {"g": "10", "n": "عسکری جیران", "id": "۴۰۲۱۳۲۰۱۰۳۲", "s1": 46.67, "st1": null, "s2": 33.33, "st2": null, "p": "اعلام نشده"}, {"g": "11", "n": "خلیلی فاطمه", "id": "۴۰۲۱۳۲۰۱۰۱۲", "s1": 100, "st1": null, "s2": null, "st2": "غیبت", "p": "اعلام نشده"}, {"g": "11", "n": "قلی پور احمد", "id": "۴۰۱۱۳۲۰۱۰۲۲", "s1": 100, "st1": null, "s2": null, "st2": "غیبت", "p": "اعلام نشده"}, {"g": "11", "n": "عالی خانی ستایش", "id": "۴۰۲۱۳۲۰۱۰۳۰", "s1": 100, "st1": null, "s2": 80, "st2": null, "p": "اعلام نشده"}, {"g": "بدون گروه", "n": "مقدسی زینب", "id": "۴۰۵۱۳۲۰۵۰۰۱", "s1": null, "st1": "فاقد نمره", "s2": 53.33, "st2": null, "p": "اعلام نشده"}];
 const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
 const num=n=>fa((Math.round(n*100)/100).toString().replace('.','٫'));
+const pct=n=>fa(Math.round(n*10)/10).replace('.','٫')+'٪';
 const norm=s=>s.replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/\D/g,'');
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const lu=()=>lucide.createIcons();
+const isAbs=d=>(d.st1||'').includes('غیبت')||(d.st2||'').includes('غیبت');
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const gradFor=v=>v>=90?'from-cyan-300 to-emerald-400':v>=75?'from-violet-400 to-cyan-400':v>=60?'from-amber-300 to-pink-400':'from-rose-500 to-pink-400';
 
 // tabs
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
@@ -105,51 +110,68 @@ const C=[['ruler','آنتروپومتری','مطالعهٔ ابعاد بدن ا�
 ['triangle-alert','خطای انسانی','شناخت لغزش، اشتباه و تخطی و طراحی سیستمی که خطا را کم‌احتمال و قابل‌بازیابی می‌کند.','amber']];
 document.getElementById('cards').innerHTML=C.map(c=>`<div class="glass glow p-6"><div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-${c[3]}-500/15 text-${c[3]}-300"><i data-lucide="${c[0]}"></i></div><h3 class="font-bold text-lg mb-2">${c[1]}</h3><p class="text-sm text-slate-300 leading-7">${c[2]}</p></div>`).join('');
 
-// stats
+// ---- data aggregates (no names/IDs on dashboard) ----
 const total=DATA.length;
-const scored=DATA.filter(d=>d.s!=null);
-const absent=DATA.filter(d=>d.st&&d.st.includes('غیبت')).length;
-const noScore=DATA.filter(d=>d.st&&d.st.includes('فاقد')).length;
-const present=scored.length;
-const avg=scored.reduce((a,b)=>a+b.s,0)/scored.length;
-const groups={};DATA.forEach(d=>{if(/^\d+$/.test(d.g))(groups[d.g]??=[]).push(d)});
-const indiv=DATA.filter(d=>d.g.includes('انفرادی')).length;
-const gcount=Object.keys(groups).length+indiv;
-const gscore=Object.entries(groups).map(([g,m])=>[`گروه ${fa(g)}`,Math.max(...m.map(x=>x.s??0))]);
-DATA.filter(d=>d.g.includes('انفرادی')).forEach(d=>gscore.push([`${fa(d.g.split('-')[0])} (انفرادی)`,d.s]));
-gscore.sort((a,b)=>parseInt(a[0].replace(/\D/g,'')||0)-0);
-const sc=[['users','تعداد کل دانشجویان',fa(total),'cyan'],['network','تعداد گروه‌ها',fa(gcount),'violet'],['award','میانگین کوئیز اول',num(avg),'fuchsia'],['calendar-check','درصد حضور',fa(Math.round(present/total*100))+'٪','emerald'],['calendar-x','درصد غیبت',fa(Math.round(absent/total*1000)/10).replace('.','٫')+'٪','rose']];
+const units={};DATA.forEach(d=>{if(d.g.includes('بدون'))return;(units[d.g]??=[]).push(d)});
+const unitLabel=g=>g.includes('انفرادی')?`انفرادی ${fa(g.split('-')[0])}`:`گروه ${fa(g)}`;
+const unitList=Object.entries(units).map(([g,m])=>({label:unitLabel(g),
+ q1:(m.find(x=>x.s1!=null)||{}).s1??null,
+ q2:avg(m.filter(x=>x.s2!=null).map(x=>x.s2))}));
+const groupCount=Object.keys(units).filter(g=>!g.includes('انفرادی')).length;
+const s1=DATA.filter(d=>d.s1!=null).map(d=>d.s1);
+const s2=DATA.filter(d=>d.s2!=null).map(d=>d.s2);
+const absent=DATA.filter(isAbs).length;
+const noScore=DATA.filter(d=>(d.st1||'').includes('فاقد')).length;
+const attended=total-absent-noScore;
+
+// ---- dashboard ----
+function growth(el){
+ const items=unitList.filter(u=>u.q1!=null&&u.q2!=null).map(u=>({l:u.label,d:u.q2-u.q1}));
+ const mx=Math.max(...items.map(i=>Math.abs(i.d)),1);
+ el.innerHTML=items.map(i=>{const w=Math.abs(i.d)/mx*50;const up=i.d>=0;
+  return `<div><div class="flex justify-between text-xs mb-1"><span>${i.l}</span><span class="${up?'text-emerald-300':'text-rose-300'}">${up?'+':'−'}${num(Math.abs(i.d))}</span></div><div class="relative h-2.5 rounded-full bg-white/10"><div class="absolute top-0 h-2.5 rounded-full ${up?'bg-gradient-to-l from-emerald-400 to-cyan-300':'bg-gradient-to-r from-rose-500 to-pink-400'}" style="${up?'left:50%':'right:50%'};width:${w}%"></div><div class="absolute left-1/2 top-0 h-2.5 w-px bg-white/60"></div></div></div>`;}).join('');
+}
+function bars(el,items){
+ el.innerHTML=items.map(([n,v])=>`<div><div class="flex justify-between text-xs mb-1"><span>${n}</span><span>${v==null?'—':num(v)}</span></div><div class="h-2.5 rounded-full bg-white/10"><div class="bar h-2.5 rounded-full bg-gradient-to-l ${v==null?'':gradFor(v)}" style="width:0" data-w="${v==null?0:v}"></div></div></div>`).join('');
+}
+const sc=[['users','تعداد کل دانشجویان',fa(total),'cyan'],['network','تعداد گروه‌ها',fa(groupCount),'violet'],['award','میانگین کوئیز اول',num(avg(s1)),'fuchsia'],['book-open-check','میانگین کوئیز دوم',num(avg(s2)),'emerald'],['calendar-x','درصد غیبت',pct(absent/total*100),'rose']];
 document.getElementById('stats').innerHTML=sc.map((c,i)=>`<div class="glass glow p-5 ${i==4?'col-span-2 lg:col-span-1':''}"><i data-lucide="${c[0]}" class="text-${c[3]}-300 mb-3"></i><div class="text-3xl font-black text-${c[3]}-300">${c[2]}</div><div class="text-xs text-slate-400 mt-1">${c[1]}</div></div>`).join('');
 function draw(){
- document.getElementById('gbars').innerHTML=gscore.map(([n,v])=>`<div><div class="flex justify-between text-xs mb-1"><span>${n}</span><span>${num(v)}</span></div><div class="h-2.5 rounded-full bg-white/10"><div class="bar h-2.5 rounded-full bg-gradient-to-l ${v>=100?'from-cyan-300 to-emerald-400':v>=80?'from-violet-400 to-cyan-400':v>=60?'from-amber-300 to-pink-400':'from-rose-500 to-pink-400'}" style="width:0" data-w="${v}"></div></div></div>`).join('');
+ bars(gbars,unitList.map(u=>[u.label,u.q1]));
+ growth(gbars2);
  setTimeout(()=>document.querySelectorAll('.bar').forEach(b=>b.style.width=b.dataset.w+'%'),50);
- const parts=[[present,'#00e5ff','حاضر و دارای نمره'],[absent,'#ff3d9a','غایب'],[noScore,'#facc15','فاقد نمره']];
+ const parts=[[attended,'#00e5ff','حاضر در کوئیزها'],[absent,'#ff3d9a','غایب حداقل در یک کوئیز'],[noScore,'#facc15','فاقد نمره']];
  let off=25,h='';parts.forEach(p=>{const l=p[0]/total*100;h+=`<circle cx="21" cy="21" r="15.9" fill="none" stroke="${p[1]}" stroke-width="5" stroke-dasharray="${l} ${100-l}" stroke-dashoffset="${off}"/>`;off-=l});
  donut.innerHTML=h+`<text x="21" y="23" text-anchor="middle" fill="#fff" font-size="6" font-weight="bold">${fa(total)}</text>`;
  legend.innerHTML=parts.map(p=>`<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${p[1]}"></span>${p[2]}: ${fa(p[0])} نفر</div>`).join('');
- const bins=[[0,50,'کمتر از ۵۰'],[50,99,'۵۰ تا ۹۹'],[99,101,'۱۰۰']].map(b=>[...b,scored.filter(d=>d.s>=b[0]&&d.s<b[1]).length]);
- const mx=Math.max(...bins.map(b=>b[3]));
+ const bins=[[0,50,'کمتر از ۵۰'],[50,80,'۵۰ تا ۷۹'],[80,101,'۸۰ تا ۱۰۰']].map(b=>[...b,s2.filter(v=>v>=b[0]&&v<b[1]).length]);
+ const mx=Math.max(...bins.map(b=>b[3]),1);
  hist.innerHTML=bins.map(b=>`<div class="flex-1 text-center text-xs"><div class="mb-1">${fa(b[3])}</div><div class="rounded-t-lg bg-gradient-to-t from-violet-600 to-cyan-300" style="height:${b[3]/mx*90}px"></div><div class="mt-1 text-slate-400">${b[2]}</div></div>`).join('');
 }
 
-// portal
+// ---- portal ----
+const scoreTxt=(v,st)=>v!=null?num(v)+' از ۱۰۰':esc(st||'—');
+const mini=(label,v,st,color)=>`<div><div class="flex justify-between text-xs mb-1"><span>${label}</span><span>${v!=null?num(v):esc(st||'—')}</span></div><div class="h-3 rounded-full bg-white/10"><div class="bar h-3 rounded-full ${color}" style="width:0" data-w="${v||0}"></div></div></div>`;
 f.onsubmit=e=>{e.preventDefault();
  const k=norm(q.value);
  if(!k){res.innerHTML=box('info','لطفاً کد دانشجویی خود را وارد کنید.','amber');return lu()}
  const s=DATA.find(d=>norm(d.id)==k);
  if(!s){res.innerHTML=box('search-x','متأسفیم، کد دانشجویی واردشده در فهرست یافت نشد. لطفاً کد را دوباره بررسی کنید یا با مدرس درس در تماس باشید.','rose');return lu()}
- const mem=/^\d+$/.test(s.g)?groups[s.g]:[s];
- const gl=s.g.includes('انفرادی')?`${fa(s.g.split('-')[0])} (انفرادی)`:/^\d+$/.test(s.g)?fa(s.g):s.g;
- const quiz=s.s!=null?num(s.s)+' از ۱۰۰':s.st;
- const proj=s.p.startsWith('۱)')?s.p.split(/(?=[۱۲]\))/).map(x=>`<li>${esc(x)}</li>`).join(''):null;
- res.innerHTML=`<div class="glass p-6 glow" style="animation:in .6s">
+ const mem=units[s.g]||[s];
+ const gl=s.g.includes('بدون')?'بدون گروه':unitLabel(s.g);
+ const proj=s.p.includes('۱)')?s.p.split(/(?=[۱۲]\))/).map(x=>`<li>${esc(x.trim())}</li>`).join(''):null;
+  res.innerHTML=`<div class="glass p-6 glow" style="animation:in .6s">
  <div class="flex items-center gap-3 mb-5"><div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-fuchsia-500 flex items-center justify-center text-black"><i data-lucide="user-check"></i></div><div><div class="text-xs text-slate-400">خوش آمدید</div><div class="font-bold text-lg">${esc(s.n)}</div></div></div>
- <div class="grid sm:grid-cols-2 gap-3">
-  <div class="bg-white/5 rounded-xl p-4"><div class="text-xs text-slate-400 mb-1">شماره گروه</div><div class="text-xl font-bold text-cyan-300">${gl}</div></div>
-  <div class="bg-white/5 rounded-xl p-4"><div class="text-xs text-slate-400 mb-1">نمره کوئیز اول (گروهی)</div><div class="text-xl font-bold text-fuchsia-300">${quiz}</div></div>
+ <div class="grid sm:grid-cols-3 gap-3">
+  <div class="bg-white/5 rounded-xl p-4"><div class="text-xs text-slate-400 mb-1">شماره گروه</div><div class="text-xl font-bold text-cyan-300">${esc(gl)}</div></div>
+  <div class="bg-white/5 rounded-xl p-4"><div class="text-xs text-slate-400 mb-1">نمره کوئیز اول (گروهی)</div><div class="text-xl font-bold text-fuchsia-300">${scoreTxt(s.s1,s.st1)}</div></div>
+  <div class="bg-white/5 rounded-xl p-4"><div class="text-xs text-slate-400 mb-1">نمره کوئیز دوم (انفرادی)</div><div class="text-xl font-bold text-emerald-300">${scoreTxt(s.s2,s.st2)}</div></div>
  </div>
  <div class="bg-white/5 rounded-xl p-4 mt-3"><div class="text-xs text-slate-400 mb-2">اعضای گروه</div><ul class="space-y-1">${mem.map(m=>`<li class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4 text-violet-300"></i>${esc(m.n)}${m.id==s.id?' <span class="text-xs text-cyan-300">(شما)</span>':''}</li>`).join('')}</ul></div>
- <div class="bg-white/5 rounded-xl p-4 mt-3"><div class="text-xs text-slate-400 mb-2">پروژه اعلامی</div>${proj?`<ul class="space-y-2 leading-7">${proj}</ul>`:`<div class="leading-7">${esc(s.p)}</div>`}</div></div>`;lu()};
+ <div class="bg-white/5 rounded-xl p-4 mt-3"><div class="text-xs text-slate-400 mb-2">پروژه اعلامی</div>${proj?`<ul class="space-y-2 leading-7">${proj}</ul>`:`<div class="leading-7">${esc(s.p)}</div>`}</div></div>`;
+ lu();
+ setTimeout(()=>document.querySelectorAll('#res .bar').forEach(b=>b.style.width=b.dataset.w+'%'),60);
+};
 const box=(i,t,c)=>`<div class="glass p-6 text-center border-${c}-400/40"><i data-lucide="${i}" class="mx-auto mb-3 w-10 h-10 text-${c}-300"></i><p class="leading-8">${t}</p></div>`;
 
 // background particles
